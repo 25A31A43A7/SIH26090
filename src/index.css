@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#FAF7F2] text-slate-800;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1ede6;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4c8b8;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #bfaea0;
+}
+
+/* Artisan motif subtle background pattern */
+.bg-mandala-pattern {
+  background-color: #FAF7F2;
+  background-image: radial-gradient(#C85A32 0.75px, transparent 0.75px), radial-gradient(#102A43 0.75px, #FAF7F2 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+  background-opacity: 0.04;
+}
+
+.bg-craft-gradient {
+  background: linear-gradient(135deg, #FFFDFB 0%, #FAF2EB 50%, #F5E5D9 100%);
+}
+
+.bg-gov-gradient {
+  background: linear-gradient(135deg, #102A43 0%, #243B53 60%, #334E68 100%);
+}
+
+.hero-glow {
+  background: radial-gradient(circle at 50% 30%, rgba(200, 90, 50, 0.15) 0%, rgba(245, 184, 27, 0.08) 40%, transparent 70%);
+}

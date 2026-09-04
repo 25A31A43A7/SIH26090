@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShilpSetu AI — From Artisan to Customer | Smart India Hackathon</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Rozha+One&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FAF7F2; }
+    .font-serif-indian { font-family: 'Rozha One', serif; }
+    .hero-glow { background: radial-gradient(circle at 50% 30%, rgba(200, 90, 50, 0.12) 0%, rgba(245, 184, 27, 0.06) 40%, transparent 70%); }
+    .bg-craft-gradient { background: linear-gradient(135deg, #FFFDFB 0%, #FAF2EB 50%, #F5E5D9 100%); }
+    .bg-govnavy { background-color: #102A43; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1ede6; }
+    ::-webkit-scrollbar-thumb { background: #d4c8b8; border-radius: 3px; }
+    @keyframes pulseSubtle { 0%, 100% { opacity: 1; } 50% { opacity: 0.85; } }
+    .animate-pulse-subtle { animation: pulseSubtle 2.5s infinite; }
+  </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- TOP DEMO PERSONA TOOLBAR FOR JUDGES -->
+  <div class="bg-slate-900 text-white text-xs border-b border-slate-800 px-4 py-2 sticky top-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <span class="flex h-2 w-2 relative">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        </span>
+        <span class="font-bold text-amber-300 uppercase tracking-wider text-[10px] bg-amber-950/80 px-2 py-0.5 rounded border border-amber-700/50">
+          SIH 2026 LIVE DEMO
+        </span>
+        <span class="text-slate-300 hidden md:inline text-[11px]">
+          1-Click Role Switcher:
+        </span>
+      </div>
+
+      <div class="flex items-center gap-1.5 flex-wrap" id="persona-buttons">
+        <button onclick="setPersona('public')" id="btn-public" class="px-2.5 py-1 rounded-lg font-bold bg-amber-500 text-slate-950 shadow-sm transition-all text-xs">
+          🌐 Public (No Login)
+        </button>
+        <button onclick="setPersona('artisan')" id="btn-artisan" class="px-2.5 py-1 rounded-lg font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all text-xs flex items-center gap-1">
+          🎨 Artisan (Lakshmi)
+        </button>
+        <button onclick="setPersona('customer')" id="btn-customer" class="px-2.5 py-1 rounded-lg font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all text-xs flex items-center gap-1">
+          🛒 Customer (Aarav)
+        </button>
+        <button onclick="setPersona('delivery')" id="btn-delivery" class="px-2.5 py-1 rounded-lg font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all text-xs flex items-center gap-1">
+          🚚 Logistics (Rajesh)
+        </button>
+        <button onclick="setPersona('government')" id="btn-government" class="px-2.5 py-1 rounded-lg font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all text-xs flex items-center gap-1">
+          🏛️ Govt (Dr. Verma, IAS)
+        </button>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button onclick="navigate('track', 'SHP-2026-7K29A4')" class="text-xs text-amber-300 hover:underline hidden sm:inline font-mono">
+          Demo Track (SHP-2026-7K29A4)
+        </button>
+        <button onclick="resetDemoData()" title="Reset Demo Data" class="text-slate-400 hover:text-rose-400 text-xs">
+          ↺ Reset
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <header class="bg-white/95 backdrop-blur-md border-b border-amber-900/10 sticky top-7 z-40 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      <div onclick="navigate('home')" class="flex items-center gap-3 cursor-pointer group select-none">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#C85A32] to-[#86381E] text-white flex items-center justify-center shadow-md font-serif-indian text-2xl font-bold">
+          श
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-xl font-extrabold tracking-tight text-slate-900">ShilpSetu</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300">
+              AI
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-500 font-medium tracking-wide">
+            From Artisan to Customer
+          </p>
+        </div>
+      </div>
+
+      <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-sm font-semibold text-slate-600">
+        <button onclick="navigate('home')" id="nav-home" class="px-3.5 py-2 rounded-xl text-[#C85A32] bg-amber-50/80 font-bold transition-all">Home</button>
+        <button onclick="navigate('marketplace')" id="nav-marketplace" class="px-3.5 py-2 rounded-xl hover:bg-slate-50 hover:text-slate-900 transition-all">Marketplace</button>
+        <button onclick="navigate('about')" id="nav-about" class="px-3.5 py-2 rounded-xl hover:bg-slate-50 hover:text-slate-900 transition-all">About</button>
+        <button onclick="navigate('track')" id="nav-track" class="px-3.5 py-2 rounded-xl hover:bg-slate-50 hover:text-slate-900 transition-all">Track Order</button>
+        <button onclick="navigate('impact')" id="nav-impact" class="px-3.5 py-2 rounded-xl hover:bg-slate-50 hover:text-slate-900 transition-all">Impact</button>
+        <button onclick="navigateCurrentDashboard()" id="nav-dashboard" class="hidden px-3.5 py-2 rounded-xl bg-[#C85A32] text-white font-bold transition-all flex items-center gap-1.5">
+          <span>Dashboard</span>
+        </button>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <button onclick="toggleCart()" class="relative p-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 transition-all" title="Shopping Cart">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span id="cart-badge" class="hidden absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[#C85A32] text-white text-[10px] font-bold flex items-center justify-center">0</span>
+        </button>
+
+        <button onclick="toggleNotifications()" class="relative p-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 transition-all" title="Notifications">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+          <span id="notif-badge" class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-amber-500 text-slate-950 text-[10px] font-bold flex items-center justify-center">2</span>
+        </button>
+
+        <div id="auth-display" class="flex items-center gap-2">
+          <button onclick="navigate('marketplace')" class="px-4 py-2 rounded-xl text-sm font-bold text-white bg-[#C85A32] hover:bg-[#A74523] shadow-md transition-all">
+            Explore Crafts
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <main id="app-root" class="flex-1"></main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 text-slate-400 pt-16 pb-12 border-t border-slate-800 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-slate-800">
+        <div class="md:col-span-2 space-y-3">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-xl bg-[#C85A32] text-white flex items-center justify-center font-serif-indian text-lg font-bold">श</div>
+            <span class="text-xl font-bold text-white">ShilpSetu AI</span>
+          </div>
+          <p class="text-xs text-slate-400 max-w-sm leading-relaxed">
+            From Artisan to Customer • Smart India Hackathon 2026. Empowering rural handicraft creators through AI Vision, Multilingual Voice, and Government-verified digital commerce.
+          </p>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-3">Quick Navigation</h4>
+          <div class="space-y-2 text-xs">
+            <p><a href="javascript:void(0)" onclick="navigate('marketplace')" class="hover:text-amber-400">Verified Marketplace</a></p>
+            <p><a href="javascript:void(0)" onclick="navigate('track')" class="hover:text-amber-400">Track Order Live</a></p>
+            <p><a href="javascript:void(0)" onclick="navigate('impact')" class="hover:text-amber-400">National Impact Metrics</a></p>
+            <p><a href="javascript:void(0)" onclick="navigate('about')" class="hover:text-amber-400">About the Mission</a></p>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-3">AI Technologies</h4>
+          <div class="space-y-1.5 text-xs text-slate-400">
+            <p>✦ AI Image Studio (Background Removal)</p>
+            <p>✦ Voice Cataloger (Telugu, Hindi, Tamil, Eng)</p>
+            <p>✦ Dynamic Fair-Trade Pricing Engine</p>
+            <p>✦ Smart Logistics QR Checkpoint Network</p>
+          </div>
+        </div>
+      </div>
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
+        <span>© 2026 ShilpSetu AI • Built for Smart India Hackathon</span>
+        <span class="text-amber-400/80">Made with ❤️ for Indian Heritage Craftspersons</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- NOTIFICATION CENTER DRAWER -->
+  <div id="notif-drawer" class="hidden fixed inset-0 z-50 flex justify-end bg-slate-900/40 backdrop-blur-xs">
+    <div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col border-l border-slate-200">
+      <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-amber-50/50">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-[#C85A32] text-white flex items-center justify-center font-bold text-xs">🔔</div>
+          <div>
+            <h3 class="font-bold text-slate-900 text-sm">Notification Center</h3>
+            <p class="text-[11px] text-slate-500">Real-time ecosystem dispatches</p>
+          </div>
+        </div>
+        <button onclick="toggleNotifications()" class="p-1 rounded text-slate-400 hover:text-slate-700">✕</button>
+      </div>
+      <div id="notif-list" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+    </div>
+  </div>
+
+  <!-- CART DRAWER -->
+  <div id="cart-drawer" class="hidden fixed inset-0 z-50 flex justify-end bg-slate-900/40 backdrop-blur-xs">
+    <div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col border-l border-slate-200">
+      <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+        <div class="flex items-center gap-2">
+          <span class="font-bold text-base text-slate-900">Shopping Cart</span>
+          <span id="cart-drawer-count" class="text-xs bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded-full">0 items</span>
+        </div>
+        <button onclick="toggleCart()" class="p-1 text-slate-400 hover:text-slate-700">✕</button>
+      </div>
+      <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+      <div id="cart-footer" class="p-5 border-t border-slate-200 bg-slate-50 space-y-3">
+        <div class="flex justify-between text-sm font-extrabold text-slate-900">
+          <span>Total Payable</span>
+          <span id="cart-total-display" class="text-[#C85A32]">₹0</span>
+        </div>
+        <button onclick="openCheckoutModal()" class="w-full py-3.5 rounded-xl bg-[#C85A32] hover:bg-[#A74523] text-white font-bold text-sm shadow-md transition-all">
+          Proceed to Direct Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKOUT MODAL -->
+  <div id="checkout-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-lg w-full p-6 sm:p-8 space-y-5">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="text-lg font-bold text-slate-900">Direct Artisan Checkout</h3>
+        <button onclick="closeCheckoutModal()" class="text-slate-400 hover:text-slate-700">✕</button>
+      </div>
+      <form onsubmit="handlePlaceOrder(event)" class="space-y-4">
+        <div>
+          <label class="text-xs font-bold text-slate-700 uppercase block mb-1">Customer Full Name</label>
+          <input type="text" id="chk-name" required value="Aarav Sharma" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm">
+        </div>
+        <div>
+          <label class="text-xs font-bold text-slate-700 uppercase block mb-1">Mobile Phone (For SMS Updates)</label>
+          <input type="text" id="chk-phone" required value="+91 98765 43210" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm">
+        </div>
+        <div>
+          <label class="text-xs font-bold text-slate-700 uppercase block mb-1">Shipping Address / City</label>
+          <input type="text" id="chk-address" required value="Road No. 12, Banjara Hills, Hyderabad, Telangana" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm">
+        </div>
+        <div>
+          <label class="text-xs font-bold text-slate-700 uppercase block mb-1">Payment Method (Simulated)</label>
+          <div class="grid grid-cols-3 gap-2 text-center text-xs">
+            <label class="p-2.5 rounded-xl border border-[#C85A32] bg-amber-50 font-bold text-[#C85A32] cursor-pointer">
+              <input type="radio" name="pay" checked class="hidden"> UPI / QR
+            </label>
+            <label class="p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 font-semibold cursor-pointer">
+              <input type="radio" name="pay" class="hidden"> Card / Net
+            </label>
+            <label class="p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 font-semibold cursor-pointer">
+              <input type="radio" name="pay" class="hidden"> Cash On Del
+            </label>
+          </div>
+        </div>
+        <div class="p-3 bg-slate-50 rounded-xl text-xs space-y-1">
+          <div class="flex justify-between"><span>Subtotal:</span><span id="chk-subtotal" class="font-bold">₹850</span></div>
+          <div class="flex justify-between"><span>Smart Delivery:</span><span class="text-emerald-700 font-bold">FREE</span></div>
+          <div class="flex justify-between text-sm font-extrabold pt-1 border-t border-slate-200">
+            <span>Total:</span><span id="chk-total" class="text-[#C85A32]">₹850</span>
+          </div>
+        </div>
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-[#C85A32] text-white font-bold text-sm shadow-md hover:bg-[#A74523] transition-all">
+          Authorize & Place Order
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toast-box" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 max-w-sm pointer-events-none"></div>
+
+  <!-- SMS SIMULATOR POPUP -->
+  <div id="sms-popup" class="hidden fixed bottom-6 left-6 z-50 max-w-sm w-full bg-slate-900 text-white rounded-2xl shadow-2xl border border-slate-700 p-4 animate-bounce-short">
+    <div class="flex items-center justify-between text-[11px] text-slate-400 pb-2 border-b border-slate-800">
+      <span class="text-emerald-400 font-bold">📱 SIMULATED SMS DISPATCH</span>
+      <button onclick="document.getElementById('sms-popup').classList.add('hidden')" class="text-slate-400 hover:text-white">✕</button>
+    </div>
+    <div class="mt-2 text-xs">
+      <span class="text-amber-300 font-bold text-[11px] block">SHILP-SETU-AI</span>
+      <p id="sms-popup-text" class="mt-1 font-mono bg-slate-800 p-2.5 rounded-xl text-slate-200 text-xs">
+        Your order is in transit.
+      </p>
+    </div>
+  </div>
+
+  <!-- CORE JAVASCRIPT APPLICATION STATE & ROUTER -->
+  <script>
+    const AppState = {
+      currentRole: 'public',
+      currentPage: 'home',
+      activeTrackingId: 'SHP-2026-7K29A4',
+      impact: {
+        artisanCount: 1420,
+        approvedProductCount: 3850,
+        orderedCount: 12450,
+        deliveredCount: 11890,
+        totalRevenue: 8450000
+      },
+      cart: [],
+      products: [
+        {
+          id: 'prod_1',
+          name: 'Kondapalli Handcrafted Dancing Doll (Bommalu)',
+          category: 'Wooden Crafts',
+          artisan: 'Lakshmi Devi',
+          location: 'Kondapalli, Andhra Pradesh',
+          price: 850,
+          status: 'APPROVED',
+          image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&q=80&w=800',
+          desc: 'Authentic Kondapalli Bobblehead doll crafted from soft Poniki wood with natural vegetable dyes and brass spring.'
+        },
+        {
+          id: 'prod_2',
+          name: 'Jaipur Cobalt Floral Blue Pottery Ceramic Vase',
+          category: 'Pottery',
+          artisan: 'Rameshwar Chhimpa',
+          location: 'Jaipur, Rajasthan',
+          price: 1450,
+          status: 'APPROVED',
+          image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&q=80&w=800',
+          desc: 'Handcrafted Egyptian paste quartz ceramic vase hand-painted with Persian botanical motifs in cobalt blue.'
+        },
+        {
+          id: 'prod_3',
+          name: 'Assam Golden Bamboo Woven Hanging Pendant Lamp',
+          category: 'Bamboo Crafts',
+          artisan: 'Anasuya Baishya',
+          location: 'Barpeta, Assam',
+          price: 1100,
+          status: 'APPROVED',
+          image: 'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&q=80&w=800',
+          desc: 'Eco-friendly sustainable ceiling pendant lamp hand-woven by women cooperative from seasoned river bamboo.'
+        },
+        {
+          id: 'prod_4',
+          name: 'Pochampally Double Ikat Pure Silk Handloom Stole',
+          category: 'Traditional Textiles',
+          artisan: 'Lakshmi Devi',
+          location: 'Pochampally, Telangana',
+          price: 2400,
+          status: 'APPROVED',
+          image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=800',
+          desc: 'Masterpiece geometric Ikat weave dyed with organic madder root and natural indigo on pit looms.'
+        },
+        {
+          id: 'prod_pending_1',
+          name: 'Hand-Carved Sacred Teakwood Elephant Figurine',
+          category: 'Wooden Crafts',
+          artisan: 'Lakshmi Devi',
+          location: 'Kondapalli, AP',
+          price: 920,
+          status: 'PENDING_APPROVAL',
+          image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&q=80&w=800',
+          desc: 'Detailed miniature teakwood elephant carving with floral relief motifs and organic beeswax luster.'
+        }
+      ],
+      orders: [
+        {
+          orderId: 'ORD-98214',
+          productName: 'Kondapalli Traditional Dancing Doll',
+          artisan: 'Lakshmi Devi',
+          customer: 'Aarav Sharma',
+          destination: 'Banjara Hills, Hyderabad',
+          price: 850,
+          status: 'IN_TRANSIT',
+          trackingId: 'SHP-2026-7K29A4',
+          date: '03 Sep 2026'
+        }
+      ],
+      trackingEvents: [
+        { title: 'Order Placed & Confirmed', time: '03 Sep, 11:15 AM', loc: 'Hyderabad, TS', desc: 'Verified through ShilpSetu gateway' },
+        { title: 'Artisan Voice Approved', time: '03 Sep, 11:45 AM', loc: 'Kondapalli Workshop, AP', desc: 'Lakshmi Devi approved and prepared handmade craft' },
+        { title: 'Picked Up by Logistics', time: '03 Sep, 04:30 PM', loc: 'Krishna Valley Hub, Vijayawada', desc: 'Rajesh Kumar scanned physical QR handover tag' },
+        { title: 'In Transit to Regional Hub', time: '04 Sep, 09:30 AM', loc: 'Sorting Hub 04, South Hyderabad', desc: 'Consignment moving through NH65 express transit corridor' }
+      ],
+      notifications: [
+        { title: '📦 Consignment In Transit', msg: 'Order #ORD-98214 has reached South Hyderabad Sorting Hub.', time: '09:30 AM' },
+        { title: '🏛️ New Product for Review', msg: 'Lakshmi Devi submitted "Teakwood Elephant Figurine" for certification.', time: '08:30 AM' }
+      ]
+    };
+
+    function setPersona(role) {
+      AppState.currentRole = role;
+      document.querySelectorAll('#persona-buttons button').forEach(b => {
+        b.className = 'px-2.5 py-1 rounded-lg font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all text-xs';
+      });
+      const activeBtn = document.getElementById('btn-' + role);
+      if (activeBtn) activeBtn.className = 'px-2.5 py-1 rounded-lg font-bold bg-amber-500 text-slate-950 shadow-sm transition-all text-xs';
+
+      const navDash = document.getElementById('nav-dashboard');
+      if (role !== 'public') {
+        navDash.classList.remove('hidden');
+        navDash.innerHTML = role === 'artisan' ? '🎨 Artisan Studio' : role === 'customer' ? '🛒 My Account' : role === 'delivery' ? '🚚 Delivery Console' : '🏛️ Govt Portal';
+        navigate(role);
+      } else {
+        navDash.classList.add('hidden');
+        navigate('home');
+      }
+      showToast('Switched Persona', `Operating with ${role.toUpperCase()} permissions.`);
+    }
+
+    function navigateCurrentDashboard() {
+      if (AppState.currentRole !== 'public') navigate(AppState.currentRole);
+    }
+
+    function navigate(page, param) {
+      AppState.currentPage = page;
+      if (param) AppState.activeTrackingId = param;
+      const root = document.getElementById('app-root');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      document.querySelectorAll('header nav button').forEach(b => b.classList.remove('text-[#C85A32]', 'bg-amber-50/80', 'font-bold'));
+      const activeNav = document.getElementById('nav-' + page);
+      if (activeNav) activeNav.classList.add('text-[#C85A32]', 'bg-amber-50/80', 'font-bold');
+
+      if (page === 'home') renderHomePage(root);
+      else if (page === 'marketplace') renderMarketplacePage(root);
+      else if (page === 'about') renderAboutPage(root);
+      else if (page === 'track') renderTrackPage(root);
+      else if (page === 'impact') renderImpactPage(root);
+      else if (page === 'artisan') renderArtisanDashboard(root);
+      else if (page === 'customer') renderCustomerDashboard(root);
+      else if (page === 'delivery') renderDeliveryDashboard(root);
+      else if (page === 'government') renderGovernmentDashboard(root);
+    }
+
+    function renderHomePage(root) {
+      root.innerHTML = `
+        <section class="relative pt-12 pb-20 bg-craft-gradient border-b border-amber-900/10">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-amber-200 shadow-xs mb-6">
+              <span class="w-2 h-2 rounded-full bg-[#C85A32] animate-ping"></span>
+              <span class="text-xs font-bold text-[#C85A32]">Smart India Hackathon 2026 • AI Ecosystem for Artisans</span>
+            </div>
+            <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
+              <span class="block text-[#C85A32] font-serif-indian font-normal italic">ShilpSetu AI</span>
+              From Artisan to Customer
+            </h1>
+            <p class="mt-6 text-lg text-slate-600 leading-relaxed font-normal">
+              An AI-powered digital ecosystem helping marginalized artisans create professional product listings, reach wider markets and manage orders and deliveries.
+            </p>
+            <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+              <button onclick="navigate('marketplace')" class="px-8 py-4 rounded-2xl bg-[#C85A32] hover:bg-[#A74523] text-white font-bold text-base shadow-lg shadow-[#C85A32]/25 transition-all">
+                Explore Marketplace &rarr;
+              </button>
+              <button onclick="setPersona('artisan')" class="px-8 py-4 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-base border-2 border-amber-200 transition-all">
+                🎨 Become an Artisan
+              </button>
+            </div>
+            <div class="mt-14 bg-white/90 rounded-3xl p-6 border border-amber-200/80 shadow-md">
+              <span class="text-[10px] font-bold text-[#C85A32] uppercase tracking-widest bg-amber-50 px-3 py-1 rounded-full">
+                End-to-End Value Chain
+              </span>
+              <div class="grid grid-cols-4 sm:grid-cols-8 gap-2 mt-4 text-[11px] font-bold text-slate-800 text-center">
+                <div class="p-2 bg-slate-50 rounded-xl border border-slate-100">🎨 Artisan</div>
+                <div class="p-2 bg-slate-50 rounded-xl border border-slate-100">🤖 AI Catalog</div>
+                <div class="p-2 bg-slate-50 rounded-xl border border-slate-100">🏛️ Govt Check</div>
+                <div class="p-2 bg-slate-50 rounded-xl border border-slate-100">🛒 Market</div>
+                <div class="p-2 bg-slate-50 rounded-xl border border-slate-100">📦 Order</div>
+                <div class="p-2 bg-slate-50 rounded-xl border border-slate-100">💳 Payment</div>
+                <div class="p-2 bg-slate-50 rounded-xl border border-slate-100">🚚 Smart Deliv</div>
+                <div class="p-2 bg-slate-50 rounded-xl border border-slate-100">🏠 Customer</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="py-16 bg-white border-b border-slate-200">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+              <span class="text-xs font-bold text-[#C85A32] uppercase tracking-wider bg-amber-50 px-3 py-1 rounded-full">
+                Real-Time Platform Growth
+              </span>
+              <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2">ShilpSetu Impact</h2>
+              <p class="text-xs text-slate-500 mt-2">
+                <strong>Platform Demo Statistics:</strong> These figures represent activity recorded within the ShilpSetu platform.
+              </p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div class="bg-slate-50 rounded-3xl p-6 border border-slate-200">
+                <span class="text-2xl">👨‍🎨</span>
+                <div class="text-3xl font-extrabold text-slate-900 mt-2 font-mono" id="stat-artisans">${AppState.impact.artisanCount.toLocaleString()}</div>
+                <h3 class="font-bold text-slate-800 text-sm mt-1">Artisans Empowered</h3>
+                <p class="text-xs text-slate-500 mt-0.5">Verified across 24 craft states</p>
+              </div>
+              <div class="bg-slate-50 rounded-3xl p-6 border border-slate-200">
+                <span class="text-2xl">📦</span>
+                <div class="text-3xl font-extrabold text-slate-900 mt-2 font-mono" id="stat-products">${AppState.impact.approvedProductCount.toLocaleString()}</div>
+                <h3 class="font-bold text-slate-800 text-sm mt-1">Products Approved</h3>
+                <p class="text-xs text-slate-500 mt-0.5">Govt-certified GI catalog listings</p>
+              </div>
+              <div class="bg-slate-50 rounded-3xl p-6 border border-slate-200">
+                <span class="text-2xl">🛒</span>
+                <div class="text-3xl font-extrabold text-slate-900 mt-2 font-mono" id="stat-orders">${AppState.impact.orderedCount.toLocaleString()}</div>
+                <h3 class="font-bold text-slate-800 text-sm mt-1">Orders Placed</h3>
+                <p class="text-xs text-slate-500 mt-0.5">Direct to master craftspersons</p>
+              </div>
+              <div class="bg-slate-50 rounded-3xl p-6 border border-slate-200">
+                <span class="text-2xl">🚚</span>
+                <div class="text-3xl font-extrabold text-slate-900 mt-2 font-mono" id="stat-delivered">${AppState.impact.deliveredCount.toLocaleString()}</div>
+                <h3 class="font-bold text-slate-800 text-sm mt-1">Orders Delivered</h3>
+                <p class="text-xs text-slate-500 mt-0.5">QR verified & safely completed</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderMarketplacePage(root) {
+      const approvedOnly = AppState.products.filter(p => p.status === 'APPROVED');
+      root.innerHTML = `
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+          <div class="bg-[#86381E] text-white rounded-3xl p-8 shadow-lg">
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-300">100% Verified Origin</span>
+            <h1 class="text-3xl font-extrabold mt-1">Authentic Indian Handicrafts</h1>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            ${approvedOnly.map(p => `
+              <div class="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-lg transition-all">
+                <div>
+                  <img src="${p.image}" class="w-full h-48 object-cover rounded-2xl mb-3">
+                  <span class="text-xs text-[#C85A32] font-semibold">${p.artisan}</span>
+                  <h3 class="font-bold text-slate-900 text-sm mt-1 line-clamp-2">${p.name}</h3>
+                </div>
+                <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between">
+                  <span class="text-lg font-extrabold text-slate-900 font-mono">₹${p.price.toLocaleString()}</span>
+                  <button onclick="addToCart('${p.id}')" class="px-4 py-2 rounded-xl bg-[#C85A32] text-white font-bold text-xs">
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderTrackPage(root) {
+      const isDelivered = AppState.orders[0]?.status === 'DELIVERED';
+      root.innerHTML = `
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+          <div class="text-center">
+            <span class="text-xs font-bold text-[#C85A32] uppercase bg-amber-50 px-3 py-1 rounded-full">Real-Time Logistics</span>
+            <h1 class="text-3xl font-extrabold text-slate-900 mt-2">Track Your ShilpSetu Order</h1>
+            <p class="text-xs text-slate-500 mt-1">Consignment ID: <strong class="font-mono text-[#C85A32]">${AppState.activeTrackingId}</strong></p>
+          </div>
+          <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-lg space-y-6">
+            <div class="flex justify-between items-center pb-4 border-b border-slate-100">
+              <span class="font-mono text-base font-extrabold text-[#C85A32] bg-amber-50 px-3 py-1 rounded-xl border border-amber-200">${AppState.activeTrackingId}</span>
+              <span class="text-xs font-bold px-3 py-1 rounded-full bg-purple-100 text-purple-900 font-mono">${AppState.orders[0]?.status || 'IN_TRANSIT'}</span>
+            </div>
+            <div>
+              <h3 class="text-sm font-extrabold text-slate-900 uppercase tracking-wider mb-4">DELIVERY TIMELINE</h3>
+              <div class="space-y-3 pl-4 border-l-2 border-amber-200 text-xs">
+                ${AppState.trackingEvents.map(evt => `
+                  <div class="relative bg-slate-50 p-3 rounded-2xl border border-slate-200">
+                    <div class="flex justify-between font-bold text-slate-900"><span>${evt.title}</span><span class="text-[10px] text-slate-400 font-mono">${evt.time}</span></div>
+                    <p class="text-slate-600 mt-0.5">${evt.desc}</p>
+                    <span class="text-[10px] text-[#C85A32] font-semibold mt-1 block">📍 ${evt.loc}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderAboutPage(root) {
+      renderHomePage(root);
+    }
+    function renderImpactPage(root) {
+      renderHomePage(root);
+    }
+
+    function renderArtisanDashboard(root) {
+      const pendingOrder = AppState.orders.find(o => o.status === 'PENDING_ARTISAN_APPROVAL');
+      root.innerHTML = `
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+          <div class="bg-gradient-to-r from-[#C85A32] to-[#86381E] text-white rounded-3xl p-6 sm:p-8 shadow-lg">
+            <h1 class="text-2xl font-extrabold">Namaste, Lakshmi Devi</h1>
+            <p class="text-xs text-amber-100">Kondapalli Woodcraft • Master Craftsperson</p>
+          </div>
+          ${pendingOrder ? `
+            <div class="p-6 bg-amber-500/10 border-2 border-amber-500 rounded-3xl space-y-3 animate-pulse-subtle">
+              <span class="text-xs font-bold text-amber-900 uppercase">🔔 New Order (Voice Approval Ready)</span>
+              <h3 class="font-extrabold text-slate-900 text-lg">${pendingOrder.productName}</h3>
+              <div class="flex items-center gap-3">
+                <button onclick="artisanAcceptOrder('${pendingOrder.orderId}')" class="px-5 py-2.5 bg-emerald-600 text-white rounded-xl text-xs font-bold">✓ Accept Order</button>
+              </div>
+            </div>
+          ` : ''}
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+            <h3 class="font-bold text-base mb-3">My Products Inventory</h3>
+            ${AppState.products.map(p => `<div class="py-2 flex justify-between text-xs border-b border-slate-100"><span>${p.name}</span><span class="font-bold">${p.status}</span></div>`).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderCustomerDashboard(root) {
+      root.innerHTML = `
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+          <div class="bg-blue-900 text-white rounded-3xl p-6 sm:p-8 shadow-md">
+            <h1 class="text-2xl font-extrabold">My Customer Account</h1>
+            <p class="text-xs text-blue-200">Aarav Sharma (Hyderabad)</p>
+          </div>
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+            <h3 class="font-bold text-base text-slate-900">My Orders</h3>
+            ${AppState.orders.map(o => `
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex justify-between text-xs">
+                <div><span class="font-bold">${o.orderId}</span><p>${o.productName}</p></div>
+                <button onclick="navigate('track', '${o.trackingId}')" class="px-3 py-1.5 bg-[#C85A32] text-white rounded-xl font-bold">Track Live</button>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderDeliveryDashboard(root) {
+      const activeOrder = AppState.orders[0];
+      root.innerHTML = `
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+          <div class="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-md">
+            <h1 class="text-2xl font-extrabold">Delivery Partner Console</h1>
+            <p class="text-xs text-slate-300">Rajesh Kumar (Hub 04, South Zone)</p>
+          </div>
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-md space-y-5">
+            <div class="flex justify-between items-center">
+              <div><span class="font-mono font-bold text-[#C85A32]">${activeOrder.trackingId}</span><h3 class="font-bold text-base">${activeOrder.productName}</h3></div>
+              <span class="px-3 py-1 bg-purple-100 text-purple-900 font-bold rounded-full text-xs font-mono">${activeOrder.status}</span>
+            </div>
+            <div class="p-4 bg-slate-900 rounded-2xl text-white space-y-3">
+              <span class="text-xs font-bold text-amber-400 uppercase">Live Milestone Controls:</span>
+              <div class="flex flex-wrap gap-2">
+                <button onclick="advanceDeliveryStage('PICKED_UP')" class="px-3.5 py-2 bg-slate-800 text-xs font-bold rounded-xl">✓ Picked Up</button>
+                <button onclick="advanceDeliveryStage('IN_TRANSIT')" class="px-3.5 py-2 bg-purple-600 text-xs font-bold rounded-xl">⚡ Start Transit</button>
+                <button onclick="advanceDeliveryStage('OUT_FOR_DELIVERY')" class="px-3.5 py-2 bg-sky-600 text-xs font-bold rounded-xl">🛵 Out for Delivery</button>
+                <button onclick="advanceDeliveryStage('DELIVERED')" class="px-4 py-2 bg-emerald-500 text-slate-950 font-extrabold text-xs rounded-xl">🎉 Mark Delivered</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderGovernmentDashboard(root) {
+      const pendingList = AppState.products.filter(p => p.status === 'PENDING_APPROVAL');
+      root.innerHTML = `
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+          <div class="bg-govnavy text-white rounded-3xl p-6 sm:p-8 shadow-md">
+            <h1 class="text-2xl font-extrabold">National Verification Portal</h1>
+            <p class="text-xs text-slate-300">Dr. Sunita Verma, IAS (Ministry of Textiles)</p>
+          </div>
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+            <h3 class="font-bold text-base">Product Certification Queue (${pendingList.length})</h3>
+            ${pendingList.map(p => `
+              <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex justify-between items-center text-xs">
+                <div><h4 class="font-bold">${p.name}</h4><p class="text-slate-500">${p.artisan}</p></div>
+                <button onclick="govtApproveProduct('${p.id}')" class="px-4 py-2 bg-emerald-600 text-white font-bold rounded-xl">✓ Approve & Publish</button>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function addToCart(id) {
+      const p = AppState.products.find(x => x.id === id);
+      if (p) {
+        AppState.cart.push(p);
+        updateCartBadge();
+        showToast('Added to Cart', p.name);
+      }
+    }
+    function updateCartBadge() {
+      const b = document.getElementById('cart-badge');
+      if (AppState.cart.length > 0) { b.classList.remove('hidden'); b.innerText = AppState.cart.length; }
+      else { b.classList.add('hidden'); }
+    }
+    function toggleCart() {
+      document.getElementById('cart-drawer').classList.toggle('hidden');
+    }
+    function toggleNotifications() {
+      document.getElementById('notif-drawer').classList.toggle('hidden');
+    }
+    function openCheckoutModal() {
+      toggleCart();
+      document.getElementById('checkout-modal').classList.remove('hidden');
+    }
+    function closeCheckoutModal() {
+      document.getElementById('checkout-modal').classList.add('hidden');
+    }
+    function handlePlaceOrder(e) {
+      e.preventDefault();
+      closeCheckoutModal();
+      AppState.cart = [];
+      updateCartBadge();
+      AppState.impact.orderedCount += 1;
+      AppState.orders.unshift({
+        orderId: 'ORD-' + Math.floor(10000 + Math.random() * 90000),
+        productName: 'Kondapalli Traditional Dancing Doll',
+        artisan: 'Lakshmi Devi',
+        customer: document.getElementById('chk-name').value,
+        destination: document.getElementById('chk-address').value,
+        price: 850,
+        status: 'PENDING_ARTISAN_APPROVAL',
+        trackingId: 'SHP-2026-9K44P1',
+        date: 'Today'
+      });
+      showToast('Order Placed', 'Sent to Lakshmi Devi for Voice Approval');
+      setPersona('artisan');
+    }
+    function artisanAcceptOrder(id) {
+      const o = AppState.orders.find(x => x.orderId === id);
+      if (o) {
+        o.status = 'IN_TRANSIT';
+        showToast('Order Accepted', 'Ready for pickup.');
+        renderArtisanDashboard(document.getElementById('app-root'));
+      }
+    }
+    function govtApproveProduct(id) {
+      const p = AppState.products.find(x => x.id === id);
+      if (p) {
+        p.status = 'APPROVED';
+        AppState.impact.approvedProductCount += 1;
+        showToast('Approved', 'Published to Public Marketplace.');
+        renderGovernmentDashboard(document.getElementById('app-root'));
+      }
+    }
+    function advanceDeliveryStage(stage) {
+      AppState.orders[0].status = stage;
+      AppState.trackingEvents.push({
+        title: stage.replace(/_/g, ' '),
+        time: 'Just now',
+        loc: 'Hyderabad Corridor',
+        desc: `Status updated to ${stage}`
+      });
+      if (stage === 'DELIVERED') {
+        AppState.impact.deliveredCount += 1;
+        showSmsPopup('ShilpSetu: Order SHP-2026-7K29A4 DELIVERED!');
+      } else {
+        showSmsPopup(`ShilpSetu: Order SHP-2026-7K29A4 ${stage}`);
+      }
+      showToast('Updated', stage);
+      renderDeliveryDashboard(document.getElementById('app-root'));
+    }
+    function showSmsPopup(txt) {
+      document.getElementById('sms-popup-text').innerText = txt;
+      document.getElementById('sms-popup').classList.remove('hidden');
+    }
+    function showToast(t, m) {
+      const box = document.getElementById('toast-box');
+      const div = document.createElement('div');
+      div.className = 'bg-slate-900 text-white p-3 rounded-xl shadow-lg border border-slate-700 text-xs pointer-events-auto';
+      div.innerHTML = `<strong>${t}</strong><p class="text-slate-300 text-[11px]">${m}</p>`;
+      box.appendChild(div);
+      setTimeout(() => div.remove(), 4000);
+    }
+    function resetDemoData() {
+      window.location.reload();
+    }
+
+    navigate('home');
+  </script>
+</body>
+</html>
